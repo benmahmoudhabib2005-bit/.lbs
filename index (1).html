@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Labbesni — Your Personal Style Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sand: #F5EFE6;
+  --sand2: #EDE5D8;
+  --sand3: #D9CEC0;
+  --rose: #C9706A;
+  --rose-light: #F7EDEC;
+  --rose-dark: #A3534E;
+  --gold: #C9A84C;
+  --gold-light: #F9F3E5;
+  --deep: #1C1815;
+  --ink: #2E2A26;
+  --muted: #7A6F65;
+  --light: #B0A49A;
+  --surface: #FDFAF6;
+  --border: rgba(44,36,28,0.1);
+  --radius: 16px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+  --shadow: 0 4px 24px rgba(28,24,21,0.08);
+  --shadow-md: 0 8px 40px rgba(28,24,21,0.14);
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Outfit', sans-serif;
+  --nav-h: 68px;
+  --t: 0.22s ease;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--sand); color: var(--deep); min-height: 100vh; font-size: 15px; line-height: 1.65; }
+
+/* grain overlay */
+body::before {
+  content:''; pointer-events:none; position:fixed; inset:0; z-index:9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+/* NAV */
+nav { position: sticky; top:0; z-index:200; height:var(--nav-h); background:rgba(245,239,230,0.93); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 2.5rem; gap:1rem; }
+.nav-logo { font-family:var(--font-display); font-size:26px; font-weight:600; letter-spacing:-0.01em; flex-shrink:0; margin-right:1.5rem; color:var(--deep); }
+.nav-logo em { color:var(--rose); font-style:italic; }
+.nav-links { display:flex; gap:4px; }
+.nav-btn { background:none; border:none; padding:8px 18px; border-radius:var(--radius-pill); font-family:var(--font-body); font-size:14px; cursor:pointer; color:var(--muted); transition:all var(--t); white-space:nowrap; font-weight:400; letter-spacing:0.01em; }
+.nav-btn:hover { background:var(--sand2); color:var(--deep); }
+.nav-btn.active { background:var(--deep); color:#fff; font-weight:500; }
+
+/* PAGES */
+.page { display:none; }
+.page.active { display:block; animation:fadeIn 0.28s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+.container { max-width:940px; margin:0 auto; padding:3.5rem 2rem 5rem; }
+
+/* TYPE */
+h1 { font-family:var(--font-display); font-size:clamp(34px,5.5vw,56px); line-height:1.1; letter-spacing:-0.02em; font-weight:600; }
+h2 { font-family:var(--font-display); font-size:32px; letter-spacing:-0.02em; font-weight:600; margin-bottom:1rem; }
+h3 { font-size:16px; font-weight:600; margin-bottom:0.4rem; }
+p { color:var(--muted); line-height:1.7; }
+.label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:var(--light); margin-bottom:0.6rem; display:block; }
+
+/* BUTTONS */
+.btn { display:inline-flex; align-items:center; gap:7px; border-radius:var(--radius-pill); padding:11px 26px; font-family:var(--font-body); font-size:14px; font-weight:500; cursor:pointer; transition:all var(--t); border:none; letter-spacing:0.02em; }
+.btn-primary { background:var(--deep); color:#fff; box-shadow:0 4px 16px rgba(28,24,21,0.25); }
+.btn-primary:hover { background:var(--ink); transform:translateY(-1px); box-shadow:0 6px 20px rgba(28,24,21,0.3); }
+.btn-rose { background:var(--rose); color:#fff; box-shadow:0 4px 14px rgba(201,112,106,0.3); }
+.btn-rose:hover { background:var(--rose-dark); transform:translateY(-1px); }
+.btn-secondary { background:var(--surface); color:var(--deep); border:1.5px solid var(--border); }
+.btn-secondary:hover { background:var(--sand2); }
+
+/* HOME */
+.hero { text-align:center; padding:5rem 2rem 3.5rem; max-width:660px; margin:0 auto 3rem; }
+.hero-badge { display:inline-block; background:var(--rose-light); color:var(--rose-dark); font-size:12px; font-weight:600; padding:5px 16px; border-radius:var(--radius-pill); margin-bottom:1.5rem; letter-spacing:0.08em; text-transform:uppercase; border:1px solid rgba(201,112,106,0.2); }
+.hero h1 { margin-bottom:1.2rem; }
+.hero h1 em { color:var(--rose); }
+.hero p { font-size:17px; margin-bottom:2.2rem; max-width:480px; margin-left:auto; margin-right:auto; }
+.hero-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.factor-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:2.5rem; }
+.factor-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; text-align:center; transition:all var(--t); }
+.factor-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); border-color:var(--sand3); }
+.factor-icon { font-size:28px; margin-bottom:10px; display:block; }
+.factor-label { font-size:14px; font-weight:600; color:var(--deep); }
+.factor-sub { font-size:12px; color:var(--light); margin-top:4px; }
+.home-cta { background:linear-gradient(135deg, var(--deep) 0%, #3D352E 100%); border-radius:var(--radius); padding:3rem; text-align:center; color:#fff; position:relative; overflow:hidden; }
+.home-cta::before { content:'✦'; font-family:var(--font-display); font-size:120px; position:absolute; right:-10px; top:-20px; opacity:0.04; }
+.home-cta h2 { color:#fff; margin-bottom:0.75rem; font-size:28px; }
+.home-cta p { color:rgba(255,255,255,0.65); margin-bottom:1.8rem; }
+.home-cta .btn-rose { background:var(--rose); }
+
+/* QUIZ */
+.step-bar { display:flex; align-items:center; margin-bottom:2.5rem; }
+.step { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--light); white-space:nowrap; }
+.step-num { width:28px; height:28px; border-radius:50%; border:1.5px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; background:var(--surface); transition:all var(--t); flex-shrink:0; }
+.step.active { color:var(--deep); }
+.step.active .step-num, .step.done .step-num { background:var(--rose); border-color:var(--rose); color:#fff; }
+.step-line { flex:1; height:1px; background:var(--border); margin:0 8px; min-width:16px; }
+.quiz-block { margin-bottom:2rem; }
+.quiz-block h3 { font-size:17px; margin-bottom:1rem; }
+.chip-row { display:flex; flex-wrap:wrap; gap:8px; }
+.chip { padding:8px 20px; border-radius:var(--radius-pill); border:1.5px solid var(--border); background:var(--surface); font-family:var(--font-body); font-size:14px; cursor:pointer; transition:all var(--t); color:var(--deep); white-space:nowrap; }
+.chip:hover { border-color:var(--rose); color:var(--rose); }
+.chip.selected { background:var(--rose-light); border-color:var(--rose); color:var(--rose-dark); font-weight:500; }
+.quiz-divider { border:none; border-top:1px dashed var(--border); margin:2rem 0; }
+.btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:2rem; }
+
+/* RESULT */
+.result-header { margin-bottom:1.5rem; }
+.result-tag { display:inline-block; background:var(--gold-light); color:var(--gold); font-size:11px; font-weight:600; padding:4px 14px; border-radius:var(--radius-pill); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.75rem; border:1px solid rgba(201,168,76,0.25); }
+.result-header h2 { font-family:var(--font-display); font-size:32px; margin-bottom:0.4rem; }
+.photo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:1rem 0 1.5rem; }
+.photo-cell { position:relative; border-radius:var(--radius); overflow:hidden; aspect-ratio:3/4; background:var(--sand2); }
+.photo-cell img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.45s ease; }
+.photo-cell:hover img { transform:scale(1.06); }
+.photo-overlay { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent,rgba(28,24,21,0.55)); color:#fff; font-size:11px; padding:28px 12px 10px; text-align:center; opacity:0; transition:opacity 0.2s; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; }
+.photo-cell:hover .photo-overlay { opacity:1; }
+.outfit-items { display:flex; flex-wrap:wrap; gap:8px; margin:0.75rem 0 1.5rem; }
+.outfit-item { background:var(--surface); border:1px solid rgba(201,112,106,0.2); border-radius:var(--radius-sm); padding:6px 14px; font-size:13px; font-weight:500; color:var(--rose-dark); }
+.styling-notes { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; margin-bottom:1.5rem; }
+.styling-notes h3 { margin-bottom:0.75rem; }
+.note-item { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); font-size:14px; color:var(--ink); }
+.note-item:last-child { border-bottom:none; }
+.note-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); margin-top:8px; flex-shrink:0; }
+
+/* ══════════════════════════════════════════
+   AVATAR DRESS-UP GAME
+══════════════════════════════════════════ */
+#page-avatar .container { max-width:1100px; }
+.avatar-layout { display:grid; grid-template-columns:1fr 340px 1fr; gap:2rem; align-items:start; }
+
+/* Wardrobe Panels */
+.wardrobe-panel { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.wardrobe-title { font-family:var(--font-display); font-size:17px; font-weight:600; padding:1rem 1.25rem 0.75rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+.wardrobe-section { padding:1rem 1.25rem; }
+.wardrobe-section-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:var(--light); margin-bottom:10px; display:block; }
+.cloth-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:1rem; }
+.cloth-btn { border:2px solid transparent; border-radius:10px; background:var(--sand); cursor:pointer; padding:8px 4px 6px; display:flex; flex-direction:column; align-items:center; gap:4px; transition:all var(--t); font-family:var(--font-body); font-size:10px; font-weight:500; color:var(--muted); text-align:center; line-height:1.2; }
+.cloth-btn:hover { border-color:var(--rose); background:var(--rose-light); color:var(--rose-dark); }
+.cloth-btn.active { border-color:var(--rose); background:var(--rose-light); color:var(--rose-dark); box-shadow:0 2px 10px rgba(201,112,106,0.2); }
+.cloth-btn .cloth-icon { font-size:22px; display:block; line-height:1; }
+
+/* Avatar Stage */
+.avatar-stage { display:flex; flex-direction:column; align-items:center; gap:1rem; }
+.avatar-canvas { width:100%; max-width:320px; background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); box-shadow:var(--shadow-md); overflow:hidden; position:relative; aspect-ratio:9/16; }
+.avatar-bg { position:absolute; inset:0; transition:background 0.6s ease; }
+.avatar-body { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; }
+
+/* CSS Avatar Figure */
+.fig { position:relative; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:8%; }
+
+/* Head */
+.fig-head { width:20%; aspect-ratio:1; border-radius:50% 50% 45% 45%; background:#D4A882; position:absolute; top:4%; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,0.1); transition:all 0.3s; }
+.fig-hair { position:absolute; top:3%; width:22%; z-index:11; display:flex; justify-content:center; font-size:clamp(24px,5vw,42px); filter:drop-shadow(0 1px 2px rgba(0,0,0,0.15)); }
+/* Neck */
+.fig-neck { position:absolute; top:17.5%; width:6%; height:4%; background:#D4A882; z-index:9; border-radius:2px; }
+/* Torso (top) */
+.fig-top { position:absolute; top:21%; width:44%; height:25%; z-index:8; border-radius:12px 12px 8px 8px; transition:all 0.4s ease; overflow:hidden; }
+.fig-top-inner { width:100%; height:100%; border-radius:inherit; display:flex; align-items:center; justify-content:center; font-size:clamp(20px,3.5vw,32px); }
+/* Bottom */
+.fig-bottom { position:absolute; top:44%; width:40%; height:28%; z-index:7; border-radius:4px 4px 0 0; transition:all 0.4s ease; overflow:hidden; }
+.fig-bottom-inner { width:100%; height:100%; border-radius:inherit; display:flex; align-items:center; justify-content:center; font-size:clamp(20px,3.5vw,32px); }
+/* Arms */
+.fig-arm { position:absolute; top:22%; width:13%; height:23%; z-index:6; border-radius:6px; transition:background 0.4s ease; }
+.fig-arm.left { left:14%; transform:rotate(8deg); transform-origin:top center; }
+.fig-arm.right { right:14%; transform:rotate(-8deg); transform-origin:top center; }
+/* Legs */
+.fig-leg { position:absolute; top:72%; width:17%; height:22%; z-index:6; border-radius:4px 4px 0 0; transition:background 0.4s ease; }
+.fig-leg.left { left:23%; }
+.fig-leg.right { right:23%; }
+/* Shoes */
+.fig-shoe { position:absolute; bottom:4%; z-index:12; font-size:clamp(14px,2.5vw,22px); transition:all 0.3s; }
+.fig-shoe.left { left:18%; }
+.fig-shoe.right { right:18%; }
+/* Accessories */
+.fig-acc { position:absolute; z-index:15; font-size:clamp(12px,2vw,18px); transition:all 0.3s; }
+.fig-acc.hat { top:2%; left:50%; transform:translateX(-50%); font-size:clamp(18px,3.5vw,30px); }
+.fig-acc.bag { right:8%; top:38%; font-size:clamp(16px,3vw,26px); }
+.fig-acc.jewel { top:20%; left:50%; transform:translateX(-50%); font-size:clamp(10px,1.8vw,15px); }
+
+/* Rating Card */
+.rating-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; width:100%; max-width:320px; }
+.rating-card h3 { font-family:var(--font-display); font-size:20px; margin-bottom:1.25rem; font-weight:600; }
+.rating-bars { display:flex; flex-direction:column; gap:10px; margin-bottom:1.25rem; }
+.rating-row { display:flex; flex-direction:column; gap:4px; }
+.rating-label { font-size:12px; font-weight:600; color:var(--muted); display:flex; justify-content:space-between; }
+.rating-label span { color:var(--deep); font-weight:700; }
+.rating-bar-bg { height:7px; background:var(--sand2); border-radius:99px; overflow:hidden; }
+.rating-bar-fill { height:100%; border-radius:99px; transition:width 1s cubic-bezier(0.34,1.56,0.64,1); width:0%; }
+.rating-total { text-align:center; margin:1.25rem 0; }
+.rating-score { font-family:var(--font-display); font-size:56px; font-weight:600; line-height:1; }
+.rating-max { font-size:18px; color:var(--light); }
+.rating-stars { font-size:20px; margin-top:4px; letter-spacing:2px; }
+.rating-feedback { font-size:13px; color:var(--muted); line-height:1.6; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border); }
+.rating-feedback strong { color:var(--deep); }
+.rules-check { display:flex; flex-direction:column; gap:6px; margin-bottom:1rem; }
+.rule-item { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
+.rule-item .rule-icon { font-size:14px; flex-shrink:0; }
+.rule-item.pass { color:var(--deep); }
+.rule-item.fail { color:var(--light); text-decoration:line-through; }
+.rate-btn-wrap { display:flex; flex-direction:column; gap:8px; }
+
+/* STYLES */
+.season-strip { display:flex; gap:10px; margin-bottom:2rem; overflow-x:auto; padding-bottom:4px; }
+.season-chip { flex-shrink:0; padding:8px 18px; border-radius:var(--radius-pill); border:1.5px solid var(--border); background:var(--surface); font-size:13px; cursor:pointer; transition:all var(--t); font-weight:500; color:var(--muted); }
+.season-chip.act { background:var(--deep); color:#fff; border-color:var(--deep); }
+.style-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); padding:1.5rem; margin-bottom:14px; cursor:pointer; display:flex; gap:1.25rem; align-items:flex-start; transition:all var(--t); }
+.style-card:hover { border-color:var(--rose); box-shadow:var(--shadow); }
+.style-card.sel { border-color:var(--rose); background:var(--rose-light); }
+.style-icon { font-size:36px; flex-shrink:0; line-height:1; }
+.style-card h3 { margin-bottom:4px; font-size:17px; }
+.style-card p { font-size:14px; margin-bottom:0.75rem; }
+.tag-row { display:flex; flex-wrap:wrap; gap:6px; }
+.tag { background:var(--sand2); border-radius:var(--radius-sm); font-size:12px; padding:3px 10px; color:var(--muted); font-weight:500; }
+.style-card.sel .tag { background:rgba(201,112,106,0.12); color:var(--rose-dark); }
+
+/* TIPS */
+.tip-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; margin-bottom:14px; display:flex; gap:1.25rem; align-items:flex-start; transition:box-shadow var(--t); }
+.tip-card:hover { box-shadow:var(--shadow-md); }
+.tip-num { font-family:var(--font-display); font-size:38px; color:var(--sand3); line-height:1; flex-shrink:0; width:44px; text-align:center; font-weight:600; }
+.tip-tag { display:inline-block; background:var(--rose-light); color:var(--rose-dark); font-size:11px; font-weight:600; padding:2px 10px; border-radius:var(--radius-pill); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+.tip-banner { background:linear-gradient(135deg, var(--deep), #3D352E); border-radius:var(--radius); padding:2.5rem; color:#fff; text-align:center; margin-top:2rem; }
+.tip-banner h2 { color:#fff; margin-bottom:0.5rem; font-size:26px; }
+.tip-banner p { color:rgba(255,255,255,0.65); margin-bottom:1.5rem; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .avatar-layout { grid-template-columns:1fr; }
+  .avatar-stage { order:-1; }
+}
+@media (max-width: 640px) {
+  nav { padding:0 1rem; }
+  .nav-logo { font-size:20px; margin-right:0.5rem; }
+  .nav-btn { padding:7px 10px; font-size:13px; }
+  .container { padding:2rem 1rem 3rem; }
+  .factor-grid { grid-template-columns:repeat(2,1fr); }
+  .photo-grid { grid-template-columns:repeat(2,1fr); }
+  .style-card { flex-direction:column; }
+  h1 { font-size:28px; }
+  h2 { font-size:22px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">L<em>ab</em>besni</div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="goPage('home',this)">Home</button>
+    <button class="nav-btn" onclick="goPage('quiz',this)">Find my outfit</button>
+    <button class="nav-btn" onclick="goPage('avatar',this)">🎮 Dress-up game</button>
+    <button class="nav-btn" onclick="goPage('styles',this)">Style guide</button>
+    <button class="nav-btn" onclick="goPage('tips',this)">Tips</button>
+  </div>
+</nav>
+
+<!-- ═══ HOME ═══ -->
+<div id="page-home" class="page active">
+  <div class="container">
+    <div class="hero">
+      <div class="hero-badge">✦ Smart outfit advisor</div>
+      <h1>What should<br /><em>you</em> wear today?</h1>
+      <p>Answer a few questions about your day, weather, and mood — and get a personalised outfit with real photo inspiration.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="goPage('quiz',document.querySelectorAll('.nav-btn')[1])">Find my outfit →</button>
+        <button class="btn btn-rose" onclick="goPage('avatar',document.querySelectorAll('.nav-btn')[2])">🎮 Play dress-up</button>
+        <button class="btn btn-secondary" onclick="goPage('styles',document.querySelectorAll('.nav-btn')[3])">Browse styles</button>
+      </div>
+    </div>
+
+    <span class="label">How it works</span>
+    <div class="factor-grid">
+      <div class="factor-card"><span class="factor-icon">🌤</span><div class="factor-label">Weather</div><div class="factor-sub">Temperature & conditions</div></div>
+      <div class="factor-card"><span class="factor-icon">📅</span><div class="factor-label">Occasion</div><div class="factor-sub">Work, casual, event…</div></div>
+      <div class="factor-card"><span class="factor-icon">🎨</span><div class="factor-label">Your style</div><div class="factor-sub">Aesthetic & preferences</div></div>
+      <div class="factor-card"><span class="factor-icon">😊</span><div class="factor-label">Mood</div><div class="factor-sub">How you feel today</div></div>
+      <div class="factor-card"><span class="factor-icon">🎮</span><div class="factor-label">Dress-up game</div><div class="factor-sub">Mix & match + get rated</div></div>
+      <div class="factor-card"><span class="factor-icon">📸</span><div class="factor-label">Photo result</div><div class="factor-sub">Real outfit inspiration</div></div>
+    </div>
+
+    <div class="home-cta">
+      <h2>Ready to find your look?</h2>
+      <p>Takes less than a minute. Real outfit photos included.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-rose" onclick="goPage('quiz',document.querySelectorAll('.nav-btn')[1])">Get started →</button>
+        <button class="btn btn-secondary" onclick="goPage('avatar',document.querySelectorAll('.nav-btn')[2])">🎮 Play dress-up</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="page-quiz" class="page">
+  <div class="container">
+    <h2>Find my outfit</h2>
+    <p style="margin-bottom:2rem">Select your answers, then hit <strong>Get suggestion</strong>.</p>
+    <div class="step-bar">
+      <div class="step active" id="s1"><div class="step-num">1</div><span>Weather</span></div>
+      <div class="step-line"></div>
+      <div class="step" id="s2"><div class="step-num">2</div><span>Occasion</span></div>
+      <div class="step-line"></div>
+      <div class="step" id="s3"><div class="step-num">3</div><span>Mood &amp; style</span></div>
+      <div class="step-line"></div>
+      <div class="step" id="s4"><div class="step-num">4</div><span>Result</span></div>
+    </div>
+    <div id="quiz-form">
+      <div class="quiz-block">
+        <span class="label">Step 1 — Weather</span>
+        <h3>What's the weather like today?</h3>
+        <div class="chip-row">
+          <button class="chip" onclick="pick(this,'weather')">☀️ Hot (30°C+)</button>
+          <button class="chip" onclick="pick(this,'weather')">🌤 Warm (20–30°C)</button>
+          <button class="chip" onclick="pick(this,'weather')">🌥 Mild (10–20°C)</button>
+          <button class="chip" onclick="pick(this,'weather')">❄️ Cold (under 10°C)</button>
+          <button class="chip" onclick="pick(this,'weather')">🌧 Rainy</button>
+          <button class="chip" onclick="pick(this,'weather')">🌨 Snowy</button>
+        </div>
+      </div>
+      <hr class="quiz-divider" />
+      <div class="quiz-block">
+        <span class="label">Step 2 — Occasion</span>
+        <h3>Where are you going today?</h3>
+        <div class="chip-row">
+          <button class="chip" onclick="pick(this,'occasion')">💼 Work / office</button>
+          <button class="chip" onclick="pick(this,'occasion')">🎉 Party / event</button>
+          <button class="chip" onclick="pick(this,'occasion')">🛒 Casual / errands</button>
+          <button class="chip" onclick="pick(this,'occasion')">🏃 Sport / gym</button>
+          <button class="chip" onclick="pick(this,'occasion')">🍽 Date / dinner</button>
+          <button class="chip" onclick="pick(this,'occasion')">🏠 Staying home</button>
+          <button class="chip" onclick="pick(this,'occasion')">✈️ Travel</button>
+        </div>
+      </div>
+      <hr class="quiz-divider" />
+      <div class="quiz-block">
+        <span class="label">Step 3a — Mood</span>
+        <h3>How do you feel today?</h3>
+        <div class="chip-row">
+          <button class="chip" onclick="pick(this,'mood')">💪 Confident</button>
+          <button class="chip" onclick="pick(this,'mood')">😌 Relaxed</button>
+          <button class="chip" onclick="pick(this,'mood')">🎭 Creative</button>
+          <button class="chip" onclick="pick(this,'mood')">🧘 Minimal</button>
+          <button class="chip" onclick="pick(this,'mood')">🌸 Feminine</button>
+          <button class="chip" onclick="pick(this,'mood')">🖤 Edgy</button>
+        </div>
+      </div>
+      <div class="quiz-block" style="margin-top:1.5rem">
+        <span class="label">Step 3b — Style preference</span>
+        <h3>What's your aesthetic?</h3>
+        <div class="chip-row">
+          <button class="chip" onclick="pick(this,'style')">👔 Classic / smart</button>
+          <button class="chip" onclick="pick(this,'style')">🧢 Streetwear</button>
+          <button class="chip" onclick="pick(this,'style')">🌿 Minimalist</button>
+          <button class="chip" onclick="pick(this,'style')">🌸 Romantic</button>
+          <button class="chip" onclick="pick(this,'style')">🖤 Edgy / alt</button>
+          <button class="chip" onclick="pick(this,'style')">🌍 Boho</button>
+          <button class="chip" onclick="pick(this,'style')">⚡ Sporty</button>
+        </div>
+      </div>
+      <hr class="quiz-divider" />
+      <div class="quiz-block">
+        <span class="label">Step 4 — Colour mood</span>
+        <h3>Which palette speaks to you today?</h3>
+        <div class="chip-row">
+          <button class="chip" onclick="pick(this,'colour')">🖤 Neutrals</button>
+          <button class="chip" onclick="pick(this,'colour')">🌊 Cool tones</button>
+          <button class="chip" onclick="pick(this,'colour')">🌸 Warm tones</button>
+          <button class="chip" onclick="pick(this,'colour')">☀️ Earth tones</button>
+          <button class="chip" onclick="pick(this,'colour')">🎨 Bold / bright</button>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="showResult()">Get my suggestion →</button>
+        <button class="btn btn-secondary" onclick="resetQuiz()">Reset</button>
+      </div>
+    </div>
+    <div id="quiz-result" style="display:none">
+      <div id="result-content"></div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="resetQuiz()">← Try again</button>
+        <button class="btn btn-primary" onclick="goPage('tips',document.querySelectorAll('.nav-btn')[4])">See styling tips →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AVATAR DRESS-UP GAME ═══ -->
+<div id="page-avatar" class="page">
+  <div class="container">
+    <h2>🎮 Dress-Up Studio</h2>
+    <p style="margin-bottom:2rem">Mix and match clothes on your avatar. Apply the fashion rules and get your outfit rated by our AI stylist!</p>
+
+    <div class="avatar-layout">
+
+      <!-- LEFT PANEL: Tops & Bottoms -->
+      <div class="wardrobe-panel">
+        <div class="wardrobe-title">👕 Tops & Bottoms</div>
+
+        <div class="wardrobe-section">
+          <span class="wardrobe-section-label">Tops</span>
+          <div class="cloth-grid">
+            <button class="cloth-btn active" onclick="wearItem('top','👔','#5B7FA6','#4A6B8A','Classic shirt')" title="Classic shirt"><span class="cloth-icon">👔</span>Shirt</button>
+            <button class="cloth-btn" onclick="wearItem('top','👕','#8B5E52','#7A4F43','T-shirt')" title="T-shirt"><span class="cloth-icon">👕</span>Tee</button>
+            <button class="cloth-btn" onclick="wearItem('top','🧥','#3A4A3A','#2E3E2E','Blazer')" title="Blazer"><span class="cloth-icon">🧥</span>Blazer</button>
+            <button class="cloth-btn" onclick="wearItem('top','🧶','#C4774A','#B06A3D','Sweater')" title="Sweater"><span class="cloth-icon">🧶</span>Sweater</button>
+            <button class="cloth-btn" onclick="wearItem('top','🎽','#6B8F6B','#5A7A5A','Sport top')" title="Sport top"><span class="cloth-icon">🎽</span>Sport</button>
+            <button class="cloth-btn" onclick="wearItem('top','🩱','#A0668A','#8A5476','Blouse')" title="Blouse"><span class="cloth-icon">🩱</span>Blouse</button>
+            <button class="cloth-btn" onclick="wearItem('top','🥼','#D4C5B0','#BFB09B','Jacket')" title="Jacket"><span class="cloth-icon">🥼</span>Jacket</button>
+            <button class="cloth-btn" onclick="wearItem('top','🧣','#9B7AB0','#8265A0','Hoodie')" title="Hoodie"><span class="cloth-icon">🧣</span>Hoodie</button>
+            <button class="cloth-btn" onclick="wearItem('top','🎀','#D4758A','#C06070','Dress')" title="Dress (full)"><span class="cloth-icon">🎀</span>Dress</button>
+          </div>
+        </div>
+
+        <div class="wardrobe-section" style="border-top:1px solid var(--border)">
+          <span class="wardrobe-section-label">Bottoms</span>
+          <div class="cloth-grid">
+            <button class="cloth-btn active" onclick="wearItem('bottom','👖','#3A4E6B','#2E3E5A','Jeans')" title="Jeans"><span class="cloth-icon">👖</span>Jeans</button>
+            <button class="cloth-btn" onclick="wearItem('bottom','🩳','#A0825A','#8A6E48','Shorts')" title="Shorts"><span class="cloth-icon">🩳</span>Shorts</button>
+            <button class="cloth-btn" onclick="wearItem('bottom','🩴','#C4A882','#B09470','Linen pants')" title="Linen pants"><span class="cloth-icon">🩴</span>Linen</button>
+            <button class="cloth-btn" onclick="wearItem('bottom','🩲','#6B7A8A','#5A6878','Joggers')" title="Joggers"><span class="cloth-icon">🩲</span>Joggers</button>
+            <button class="cloth-btn" onclick="wearItem('bottom','👗','#D48890','#C07075','Skirt')" title="Skirt"><span class="cloth-icon">👗</span>Skirt</button>
+            <button class="cloth-btn" onclick="wearItem('bottom','🩱','#5A7A8A','#4A6A7A','Culottes')" title="Culottes"><span class="cloth-icon">🩱</span>Culottes</button>
+          </div>
+        </div>
+
+        <div class="wardrobe-section" style="border-top:1px solid var(--border)">
+          <span class="wardrobe-section-label">Background / Scene</span>
+          <div class="cloth-grid">
+            <button class="cloth-btn active" onclick="setBg('linear-gradient(180deg,#C8DCF0 0%,#E8F4F0 60%,#D4C8B8 100%)')" title="Outdoor"><span class="cloth-icon">🌤</span>Outdoor</button>
+            <button class="cloth-btn" onclick="setBg('linear-gradient(180deg,#F5F0E8 0%,#EDE5D8 100%)')" title="Studio"><span class="cloth-icon">🤍</span>Studio</button>
+            <button class="cloth-btn" onclick="setBg('linear-gradient(180deg,#1A1A2E 0%,#2D2D44 100%)')" title="Night"><span class="cloth-icon">🌙</span>Night</button>
+            <button class="cloth-btn" onclick="setBg('linear-gradient(180deg,#D4E8C8 0%,#B8D4A8 100%)')" title="Garden"><span class="cloth-icon">🌿</span>Garden</button>
+            <button class="cloth-btn" onclick="setBg('linear-gradient(180deg,#E8C8B0 0%,#D4A882 60%,#C09060 100%)')" title="Warm"><span class="cloth-icon">🌅</span>Sunset</button>
+            <button class="cloth-btn" onclick="setBg('linear-gradient(180deg,#D0E0F4 0%,#E8D4E8 100%)')" title="Pastel"><span class="cloth-icon">🌸</span>Pastel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER: Avatar -->
+      <div class="avatar-stage">
+        <div class="avatar-canvas">
+          <div class="avatar-bg" id="avBg" style="background:linear-gradient(180deg,#C8DCF0 0%,#E8F4F0 60%,#D4C8B8 100%)"></div>
+          <div class="fig">
+            <!-- Hair -->
+            <div class="fig-hair" id="avHair">🦱</div>
+            <!-- Head -->
+            <div class="fig-head" id="avHead"></div>
+            <!-- Neck -->
+            <div class="fig-neck"></div>
+            <!-- Top -->
+            <div class="fig-top" id="avTop" style="background:#5B7FA6">
+              <div class="fig-top-inner" id="avTopIcon">👔</div>
+            </div>
+            <!-- Bottom -->
+            <div class="fig-bottom" id="avBottom" style="background:#3A4E6B">
+              <div class="fig-bottom-inner" id="avBottomIcon">👖</div>
+            </div>
+            <!-- Arms -->
+            <div class="fig-arm left" id="avArmL" style="background:#5B7FA6"></div>
+            <div class="fig-arm right" id="avArmR" style="background:#5B7FA6"></div>
+            <!-- Legs -->
+            <div class="fig-leg left" id="avLegL" style="background:#3A4E6B"></div>
+            <div class="fig-leg right" id="avLegR" style="background:#3A4E6B"></div>
+            <!-- Shoes -->
+            <div class="fig-shoe left" id="avShoeL">👟</div>
+            <div class="fig-shoe right" id="avShoeR">👟</div>
+            <!-- Accessories -->
+            <div class="fig-acc hat" id="avHat" style="display:none"></div>
+            <div class="fig-acc bag" id="avBag" style="display:none"></div>
+            <div class="fig-acc jewel" id="avJewel" style="display:none"></div>
+          </div>
+        </div>
+
+        <!-- Rating display -->
+        <div class="rating-card" id="ratingCard">
+          <h3>✦ Style rating</h3>
+          <p style="font-size:13px;color:var(--light);margin-bottom:1rem">Dress your avatar then click <strong style="color:var(--deep)">Rate my outfit</strong> to get your score.</p>
+          <div id="ratingContent" style="display:none">
+            <div class="rules-check" id="rulesCheck"></div>
+            <div class="rating-bars" id="ratingBars"></div>
+            <div class="rating-total">
+              <div class="rating-score" id="ratingScore" style="color:var(--rose)">—</div>
+              <div class="rating-max">/100</div>
+              <div class="rating-stars" id="ratingStars"></div>
+            </div>
+            <div class="rating-feedback" id="ratingFeedback"></div>
+          </div>
+          <div class="rate-btn-wrap" style="margin-top:1rem">
+            <button class="btn btn-rose" style="width:100%;justify-content:center" onclick="rateOutfit()">⭐ Rate my outfit</button>
+            <button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:13px" onclick="randomOutfit()">🎲 Random look</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL: Shoes & Accessories -->
+      <div class="wardrobe-panel">
+        <div class="wardrobe-title">👠 Shoes & Accessories</div>
+
+        <div class="wardrobe-section">
+          <span class="wardrobe-section-label">Footwear</span>
+          <div class="cloth-grid">
+            <button class="cloth-btn active" onclick="wearItem('shoes','👟','','','Sneakers')" title="Sneakers"><span class="cloth-icon">👟</span>Sneakers</button>
+            <button class="cloth-btn" onclick="wearItem('shoes','👠','','','Heels')" title="Heels"><span class="cloth-icon">👠</span>Heels</button>
+            <button class="cloth-btn" onclick="wearItem('shoes','👞','','','Oxfords')" title="Oxfords"><span class="cloth-icon">👞</span>Oxfords</button>
+            <button class="cloth-btn" onclick="wearItem('shoes','🥾','','','Boots')" title="Boots"><span class="cloth-icon">🥾</span>Boots</button>
+            <button class="cloth-btn" onclick="wearItem('shoes','🩴','','','Sandals')" title="Sandals"><span class="cloth-icon">🩴</span>Sandals</button>
+            <button class="cloth-btn" onclick="wearItem('shoes','🥿','','','Flats')" title="Flats"><span class="cloth-icon">🥿</span>Flats</button>
+            <button class="cloth-btn" onclick="wearItem('shoes','🩰','','','Ballet')" title="Ballet flats"><span class="cloth-icon">🩰</span>Ballet</button>
+            <button class="cloth-btn" onclick="wearItem('shoes','🥋','','','Sport shoes')" title="Sport shoes"><span class="cloth-icon">🥋</span>Sport</button>
+            <button class="cloth-btn" onclick="wearItem('shoes','🪖','','','Ankle boot')" title="Ankle boot"><span class="cloth-icon">🪖</span>Ankle</button>
+          </div>
+        </div>
+
+        <div class="wardrobe-section" style="border-top:1px solid var(--border)">
+          <span class="wardrobe-section-label">Hats</span>
+          <div class="cloth-grid">
+            <button class="cloth-btn" onclick="wearAcc('hat','🧢','Cap')" title="Cap"><span class="cloth-icon">🧢</span>Cap</button>
+            <button class="cloth-btn" onclick="wearAcc('hat','👒','Sun hat')" title="Sun hat"><span class="cloth-icon">👒</span>Sun hat</button>
+            <button class="cloth-btn" onclick="wearAcc('hat','🎩','Top hat')" title="Top hat"><span class="cloth-icon">🎩</span>Top hat</button>
+            <button class="cloth-btn" onclick="wearAcc('hat','🪖','Beanie')" title="Beanie"><span class="cloth-icon">🪖</span>Beanie</button>
+            <button class="cloth-btn" onclick="wearAcc('hat','👑','Crown')" title="Crown"><span class="cloth-icon">👑</span>Crown</button>
+            <button class="cloth-btn" onclick="removeAcc('hat')" title="No hat"><span class="cloth-icon" style="opacity:0.4">✕</span>None</button>
+          </div>
+        </div>
+
+        <div class="wardrobe-section" style="border-top:1px solid var(--border)">
+          <span class="wardrobe-section-label">Bags</span>
+          <div class="cloth-grid">
+            <button class="cloth-btn" onclick="wearAcc('bag','👜','Handbag')" title="Handbag"><span class="cloth-icon">👜</span>Handbag</button>
+            <button class="cloth-btn" onclick="wearAcc('bag','👝','Clutch')" title="Clutch"><span class="cloth-icon">👝</span>Clutch</button>
+            <button class="cloth-btn" onclick="wearAcc('bag','🎒','Backpack')" title="Backpack"><span class="cloth-icon">🎒</span>Backpack</button>
+            <button class="cloth-btn" onclick="wearAcc('bag','💼','Briefcase')" title="Briefcase"><span class="cloth-icon">💼</span>Brief</button>
+            <button class="cloth-btn" onclick="wearAcc('bag','🛍','Shopping bag')" title="Shopping bag"><span class="cloth-icon">🛍</span>Tote</button>
+            <button class="cloth-btn" onclick="removeAcc('bag')" title="No bag"><span class="cloth-icon" style="opacity:0.4">✕</span>None</button>
+          </div>
+        </div>
+
+        <div class="wardrobe-section" style="border-top:1px solid var(--border)">
+          <span class="wardrobe-section-label">Jewellery & extras</span>
+          <div class="cloth-grid">
+            <button class="cloth-btn" onclick="wearAcc('jewel','💍','Ring')" title="Ring"><span class="cloth-icon">💍</span>Ring</button>
+            <button class="cloth-btn" onclick="wearAcc('jewel','📿','Necklace')" title="Necklace"><span class="cloth-icon">📿</span>Necklace</button>
+            <button class="cloth-btn" onclick="wearAcc('jewel','⌚','Watch')" title="Watch"><span class="cloth-icon">⌚</span>Watch</button>
+            <button class="cloth-btn" onclick="wearAcc('jewel','🕶','Sunglasses')" title="Sunglasses"><span class="cloth-icon">🕶</span>Glasses</button>
+            <button class="cloth-btn" onclick="wearAcc('jewel','🧤','Gloves')" title="Gloves"><span class="cloth-icon">🧤</span>Gloves</button>
+            <button class="cloth-btn" onclick="removeAcc('jewel')" title="None"><span class="cloth-icon" style="opacity:0.4">✕</span>None</button>
+          </div>
+        </div>
+
+        <div class="wardrobe-section" style="border-top:1px solid var(--border)">
+          <span class="wardrobe-section-label">Hair style</span>
+          <div class="cloth-grid">
+            <button class="cloth-btn active" onclick="setHair('🦱')" title="Wavy"><span class="cloth-icon">🦱</span>Wavy</button>
+            <button class="cloth-btn" onclick="setHair('👱')" title="Blonde"><span class="cloth-icon">👱</span>Blonde</button>
+            <button class="cloth-btn" onclick="setHair('👩‍🦰')" title="Red"><span class="cloth-icon">👩‍🦰</span>Red</button>
+            <button class="cloth-btn" onclick="setHair('👩‍🦱')" title="Curly"><span class="cloth-icon">👩‍🦱</span>Curly</button>
+            <button class="cloth-btn" onclick="setHair('🧑‍🦲')" title="Bald"><span class="cloth-icon">🧑‍🦲</span>Bald</button>
+            <button class="cloth-btn" onclick="setHair('👩‍🦳')" title="White"><span class="cloth-icon">👩‍🦳</span>White</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /avatar-layout -->
+  </div>
+</div>
+
+<!-- ═══ STYLES ═══ -->
+<div id="page-styles" class="page">
+  <div class="container">
+    <h2>Style guide</h2>
+    <p style="margin-bottom:1rem">Explore different aesthetics. Click to save your favourites.</p>
+    <div class="season-strip">
+      <div class="season-chip act" onclick="filterSeason(this,'all')">All seasons</div>
+      <div class="season-chip" onclick="filterSeason(this,'spring')">🌸 Spring</div>
+      <div class="season-chip" onclick="filterSeason(this,'summer')">☀️ Summer</div>
+      <div class="season-chip" onclick="filterSeason(this,'autumn')">🍂 Autumn</div>
+      <div class="season-chip" onclick="filterSeason(this,'winter')">❄️ Winter</div>
+    </div>
+    <div class="style-card" onclick="this.classList.toggle('sel')" data-season="all"><div class="style-icon">👔</div><div><h3>Classic / smart</h3><p>Timeless, polished looks that never go out of fashion. Perfect for professional and formal settings.</p><div class="tag-row"><span class="tag">Blazer</span><span class="tag">Trousers</span><span class="tag">Oxford shoes</span><span class="tag">Button-down</span><span class="tag">Trench coat</span></div></div></div>
+    <div class="style-card" onclick="this.classList.toggle('sel')" data-season="summer"><div class="style-icon">🧢</div><div><h3>Streetwear / urban</h3><p>Bold, relaxed silhouettes inspired by youth and city culture. Comfort meets cool.</p><div class="tag-row"><span class="tag">Hoodie</span><span class="tag">Cargo pants</span><span class="tag">Sneakers</span><span class="tag">Oversized tee</span><span class="tag">Cap</span></div></div></div>
+    <div class="style-card" onclick="this.classList.toggle('sel')" data-season="all"><div class="style-icon">🌿</div><div><h3>Minimalist / neutral</h3><p>Clean lines, muted tones, and simple silhouettes. Effortless elegance through restraint.</p><div class="tag-row"><span class="tag">Linen shirt</span><span class="tag">Straight-leg jeans</span><span class="tag">White sneakers</span><span class="tag">Tote bag</span></div></div></div>
+    <div class="style-card" onclick="this.classList.toggle('sel')" data-season="spring"><div class="style-icon">🌸</div><div><h3>Feminine / romantic</h3><p>Soft fabrics, floral prints, and graceful silhouettes that celebrate femininity.</p><div class="tag-row"><span class="tag">Floral dress</span><span class="tag">Midi skirt</span><span class="tag">Ballet flats</span><span class="tag">Cardigan</span></div></div></div>
+    <div class="style-card" onclick="this.classList.toggle('sel')" data-season="autumn"><div class="style-icon">🖤</div><div><h3>Edgy / alternative</h3><p>Dark colours, bold textures, and statement pieces that command attention.</p><div class="tag-row"><span class="tag">Leather jacket</span><span class="tag">Skinny jeans</span><span class="tag">Chelsea boots</span><span class="tag">Band tee</span></div></div></div>
+    <div class="style-card" onclick="this.classList.toggle('sel')" data-season="summer"><div class="style-icon">🌍</div><div><h3>Boho / free-spirited</h3><p>Earthy tones, flowing fabrics, and artisanal details. Effortlessly wanderlust-ready.</p><div class="tag-row"><span class="tag">Maxi dress</span><span class="tag">Woven bag</span><span class="tag">Sandals</span><span class="tag">Layered necklaces</span></div></div></div>
+    <div class="style-card" onclick="this.classList.toggle('sel')" data-season="all"><div class="style-icon">⚡</div><div><h3>Sporty / athleisure</h3><p>Performance-meets-street. Athletic pieces styled for everyday life.</p><div class="tag-row"><span class="tag">Leggings</span><span class="tag">Track jacket</span><span class="tag">Running shoes</span><span class="tag">Gym bag</span></div></div></div>
+    <div style="margin-top:2rem;display:flex;gap:12px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="goPage('quiz',document.querySelectorAll('.nav-btn')[1])">Use my style in the quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TIPS ═══ -->
+<div id="page-tips" class="page">
+  <div class="container">
+    <h2>Outfit tips</h2>
+    <p style="margin-bottom:2rem">Quick, practical rules to help you dress better every day — no stylist needed.</p>
+    <div class="tip-card"><div class="tip-num">01</div><div><div class="tip-tag">Colour</div><h3>The 3-colour rule</h3><p>Limit your outfit to 3 colours max — one neutral, one base, one accent. Keeps any look cohesive without overthinking.</p></div></div>
+    <div class="tip-card"><div class="tip-num">02</div><div><div class="tip-tag">Fit</div><h3>Fit beats price every time</h3><p>An average item in a great fit always beats an expensive item that doesn't suit your body. Tailoring is the best fashion investment.</p></div></div>
+    <div class="tip-card"><div class="tip-num">03</div><div><div class="tip-tag">Layering</div><h3>Master the 3-layer system</h3><p>Base layer, mid layer, outer layer. Works for style and temperature control in every season.</p></div></div>
+    <div class="tip-card"><div class="tip-num">04</div><div><div class="tip-tag">Occasion</div><h3>Dress one level up</h3><p>When in doubt, dress slightly smarter than the occasion requires. It signals care and confidence.</p></div></div>
+    <div class="tip-card"><div class="tip-num">05</div><div><div class="tip-tag">Accessories</div><h3>Accessories carry the look</h3><p>A simple outfit with a quality watch, belt, bag, or shoes can look completely transformed. Invest in accessories first.</p></div></div>
+    <div class="tip-card"><div class="tip-num">06</div><div><div class="tip-tag">Capsule wardrobe</div><h3>Build a core 10</h3><p>10 versatile pieces that mix and match create 30+ outfits. Think neutral basics, quality jeans, a blazer.</p></div></div>
+    <div class="tip-card"><div class="tip-num">07</div><div><div class="tip-tag">Shoes</div><h3>Shoes make or break it</h3><p>Clean, well-maintained shoes elevate any outfit. Dirty or worn shoes undermine even the best look.</p></div></div>
+    <div class="tip-banner">
+      <h2>Ready to find your look?</h2>
+      <p>Take the quiz and get a personalised outfit with real photos.</p>
+      <button class="btn btn-rose" onclick="goPage('quiz',document.querySelectorAll('.nav-btn')[1])">Find my outfit →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Navigation ── */
+function goPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── Quiz ── */
+const sel = { weather: null, occasion: null, mood: null, style: null, colour: null };
+
+function pick(el, group) {
+  el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  sel[group] = el.textContent.trim();
+  updateSteps();
+}
+
+function updateSteps() {
+  const filled = [!!sel.weather, !!sel.occasion, !!(sel.mood || sel.style), false];
+  filled.forEach((d, i) => {
+    const el = document.getElementById('s' + (i + 1));
+    el.classList.toggle('done', d);
+    el.classList.toggle('active', !d && (i === 0 || filled[i - 1]));
+  });
+}
+
+const DB = {
+  hot: {
+    work:   { label:'Smart summer office',    items:['Linen trousers','Light cotton shirt','Loafers','Minimalist watch','Tote bag'] },
+    party:  { label:'Party-ready summer',     items:['Flowy dress or shorts','Strappy sandals','Light cardigan','Statement earrings','Clutch'] },
+    casual: { label:'Casual summer',          items:['Shorts','Graphic tee','White sneakers','Cap','Sunglasses'] },
+    sport:  { label:'Athletic summer',        items:['Shorts','Moisture-wicking top','Running shoes','Sports socks','Gym bag'] },
+    date:   { label:'Date night summer',      items:['Midi dress or chinos','Light blouse','Strappy sandals','Gold jewellery','Clutch'] },
+    home:   { label:'Hot-day loungewear',     items:['Shorts','Loose cotton tee','Flip flops'] },
+    travel: { label:'Summer travel look',     items:['Breathable trousers','Lightweight top','Sneakers','Crossbody bag','Sunhat'] },
+  },
+  warm: {
+    work:   { label:'Transitional office look', items:['Chinos','Oxford shirt','Light blazer','Derby shoes','Leather belt'] },
+    party:  { label:'Evening event look',       items:['Smart jeans','Blouse or shirt','Heeled boots or loafers','Statement bag'] },
+    casual: { label:'Weekend casual',           items:['Jeans','Striped top','Trainers','Light jacket'] },
+    sport:  { label:'Active day look',          items:['Joggers','Sport top','Running shoes','Light hoodie'] },
+    date:   { label:'Warm evening date',        items:['Tailored trousers','Silk blouse or shirt','Low heels or loafers','Handbag'] },
+    home:   { label:'Comfy at home',            items:['Tracksuit or joggers','Cosy sweater','Slippers'] },
+    travel: { label:'Travel-ready look',        items:['Comfortable trousers','Layering tee','Light jacket','Sneakers','Backpack'] },
+  },
+  cold: {
+    work:   { label:'Winter office look',     items:['Wool trousers','Turtleneck','Blazer','Ankle boots','Scarf','Long coat'] },
+    party:  { label:'Winter party',           items:['Dark jeans or dress','Chunky knit','Heeled boots','Statement coat','Gloves'] },
+    casual: { label:'Cosy casual',            items:['Jeans','Chunky knit jumper','Parka','Boots','Beanie','Scarf'] },
+    sport:  { label:'Cold weather sport',     items:['Thermal base layer','Fleece mid-layer','Joggers','Running shoes','Gloves'] },
+    date:   { label:'Winter date night',      items:['Dark jeans','Silk blouse or shirt','Long coat','Ankle boots','Cashmere scarf'] },
+    home:   { label:'Winter loungewear',      items:['Sweatpants','Hoodie','Cosy socks','Fluffy slippers'] },
+    travel: { label:'Winter travel look',     items:['Warm trousers','Thermal base','Heavy-knit jumper','Long coat','Boots'] },
+  },
+  rainy: {
+    work:   { label:'Rainy office day',       items:['Waterproof trousers','Smart top','Trench coat','Chelsea boots','Compact umbrella'] },
+    party:  { label:'Rainy evening out',      items:['Smart dress or trousers','Waterproof coat','Ankle boots','Mini umbrella'] },
+    casual: { label:'Rainy casual',           items:['Jeans','Sweatshirt','Raincoat','Waterproof boots','Backpack'] },
+    sport:  { label:'Rainy day sport',        items:['Waterproof joggers','Moisture-wicking top','Windbreaker','Trail shoes'] },
+    date:   { label:'Rainy date night',       items:['Smart jeans','Silk top','Trench coat','Ankle boots','Compact umbrella'] },
+    home:   { label:'Rainy day in',           items:['Lounge trousers','Cosy jumper','Warm socks'] },
+    travel: { label:'Rainy travel day',       items:['Waterproof trousers','Base layer','Raincoat','Waterproof boots','Dry bag'] },
+  },
+};
+
+function weatherKey(w) {
+  if (!w) return 'warm';
+  if (w.includes('Hot')) return 'hot';
+  if (w.includes('Warm')) return 'warm';
+  if (w.includes('Rainy') || w.includes('Snowy')) return 'rainy';
+  return 'cold';
+}
+function occasionKey(o) {
+  if (!o) return 'casual';
+  if (o.includes('Work')) return 'work';
+  if (o.includes('Party')) return 'party';
+  if (o.includes('Sport')) return 'sport';
+  if (o.includes('Date')) return 'date';
+  if (o.includes('home')) return 'home';
+  if (o.includes('Travel')) return 'travel';
+  return 'casual';
+}
+function moodTips(mood, colour) {
+  const m = { '💪 Confident':'Go bold — structured silhouettes and strong colours amplify confidence.', '😌 Relaxed':'Opt for soft textures and relaxed fits. Comfort is the priority.', '🎭 Creative':'Mix patterns, layer unexpectedly, and let your personality lead.', '🧘 Minimal':'Stick to one colour family and let fabric quality speak for itself.', '🌸 Feminine':'Soft draping, pastels, and delicate details will enhance your mood.', '🖤 Edgy':'Lean into dark tones, texture contrast, and statement silhouettes.' };
+  const c = { '🖤 Neutrals':'Neutrals give infinite mix-and-match power — invest here.', '🌊 Cool tones':'Cool tones convey calm and authority. Perfect for professional settings.', '🌸 Warm tones':'Warm tones draw energy and warmth into any room you enter.', '☀️ Earth tones':'Earth tones are effortlessly chic and universally flattering.', '🎨 Bold / bright':'Bold colour is your superpower — own it with a minimal silhouette.' };
+  return [m[mood], c[colour]].filter(Boolean);
+}
+
+const P = (id) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=400&h=533&fit=crop`;
+const PHOTOS = {
+  hot_work:[1043474,1536619,2220316], hot_party:[15910518,17699546,1146708], hot_casual:[1152077,1536619,2220316], hot_sport:[1547248,3621837,2294353], hot_date:[15910518,1405963,1898691], hot_home:[3622043,4057760,2220316], hot_travel:[1170986,2115257,2253839],
+  warm_work:[3768005,1043474,2220316], warm_party:[11628031,1405963,1536619], warm_casual:[1152077,2220316,1598511], warm_sport:[3621837,1547248,2294353], warm_date:[1405963,11628031,1898691], warm_home:[3622043,4057760,3622043], warm_travel:[1170986,2115257,3768005],
+  cold_work:[3398192,6712145,14495270], cold_party:[6539030,3398192,11628031], cold_casual:[10955935,10912437,6712145], cold_sport:[1547248,3621837,2294353], cold_date:[3398192,6712145,1405963], cold_home:[3622043,4057760,3622043], cold_travel:[10955935,3398192,2115257],
+  rainy_work:[6539030,3398192,14495270], rainy_party:[11628031,6539030,1405963], rainy_casual:[10912437,10955935,1152077], rainy_sport:[1547248,2294353,3621837], rainy_date:[6539030,3398192,1405963], rainy_home:[3622043,4057760,3622043], rainy_travel:[10955935,2115257,10912437],
+};
+
+function buildPhotoGrid(wk,ok) {
+  const ids = PHOTOS[wk+'_'+ok] || PHOTOS['warm_casual'];
+  return ids.map(id=>`
+    <div class="photo-cell">
+      <img src="${P(id)}" alt="Outfit inspiration" loading="lazy"
+        onerror="this.parentElement.style.background='#f0eff8';this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'height:100%;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:13px;text-align:center;padding:1rem;\\'>📷 Unavailable</div>')"
+      />
+      <div class="photo-overlay">Style inspiration</div>
+    </div>`).join('');
+}
+
+function showResult() {
+  const wk = weatherKey(sel.weather);
+  const ok = occasionKey(sel.occasion);
+  const outfit = DB[wk]?.[ok] || DB.warm.casual;
+  const tips = moodTips(sel.mood, sel.colour);
+  const ctx = [sel.weather||'mild weather', sel.occasion||'casual outing', sel.mood, sel.style].filter(Boolean).join(' · ');
+  const itemsHTML = outfit.items.map(i=>`<div class="outfit-item">${i}</div>`).join('');
+  const tipsHTML = tips.map(t=>`<div class="note-item"><div class="note-dot"></div><span>${t}</span></div>`).join('');
+  const photosHTML = buildPhotoGrid(wk, ok);
+  document.getElementById('result-content').innerHTML = `
+    <div class="result-header">
+      <div class="result-tag">Your outfit suggestion</div>
+      <h2>${outfit.label}</h2>
+      <p>Based on: <strong>${ctx}</strong></p>
+    </div>
+    <span class="label">Outfit photos — real inspiration</span>
+    <div class="photo-grid">${photosHTML}</div>
+    <span class="label" style="margin-top:1.5rem;display:block">Your outfit pieces</span>
+    <div class="outfit-items">${itemsHTML}</div>
+    ${tips.length ? `<div class="styling-notes"><h3>Styling notes for you</h3>${tipsHTML}</div>` : ''}
+  `;
+  document.getElementById('quiz-form').style.display='none';
+  document.getElementById('quiz-result').style.display='block';
+  ['s1','s2','s3','s4'].forEach(id=>{
+    document.getElementById(id).classList.remove('active');
+    document.getElementById(id).classList.add('done');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetQuiz() {
+  Object.keys(sel).forEach(k=>sel[k]=null);
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('quiz-form').style.display='block';
+  document.getElementById('quiz-result').style.display='none';
+  ['s1','s2','s3','s4'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    el.classList.remove('done','active');
+    if(i===0) el.classList.add('active');
+  });
+}
+
+function filterSeason(el, season) {
+  document.querySelectorAll('.season-chip').forEach(c=>c.classList.remove('act'));
+  el.classList.add('act');
+  document.querySelectorAll('.style-card').forEach(card=>{
+    const s=card.dataset.season;
+    card.style.display=(season==='all'||s==='all'||s===season)?'flex':'none';
+  });
+}
+
+/* ══════════════════════════════════════
+   AVATAR DRESS-UP GAME LOGIC
+══════════════════════════════════════ */
+const avatar = {
+  top: { icon:'👔', color:'#5B7FA6', colorDark:'#4A6B8A', name:'Classic shirt' },
+  bottom: { icon:'👖', color:'#3A4E6B', colorDark:'#2E3E5A', name:'Jeans' },
+  shoes: { icon:'👟', name:'Sneakers' },
+  hat: null,
+  bag: null,
+  jewel: null,
+  hair: '🦱'
+};
+
+function wearItem(part, icon, color, colorDark, name) {
+  // Update state
+  avatar[part] = { icon, color, colorDark, name };
+  // Update avatar figure
+  if (part === 'top') {
+    document.getElementById('avTop').style.background = color;
+    document.getElementById('avTopIcon').textContent = icon;
+    document.getElementById('avArmL').style.background = color;
+    document.getElementById('avArmR').style.background = color;
+  } else if (part === 'bottom') {
+    document.getElementById('avBottom').style.background = color;
+    document.getElementById('avBottomIcon').textContent = icon;
+    document.getElementById('avLegL').style.background = color;
+    document.getElementById('avLegR').style.background = color;
+  } else if (part === 'shoes') {
+    document.getElementById('avShoeL').textContent = icon;
+    document.getElementById('avShoeR').textContent = icon;
+  }
+  // Highlight active button in the correct group
+  const allBtns = document.querySelectorAll('#page-avatar .cloth-btn');
+  // find buttons in the same wardrobe-section that have this name
+  allBtns.forEach(btn => {
+    if (btn.title === name) {
+      // deactivate siblings in same grid
+      btn.closest('.cloth-grid').querySelectorAll('.cloth-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  });
+  // Clear rating when outfit changes
+  clearRating();
+}
+
+function wearAcc(slot, icon, name) {
+  avatar[slot] = { icon, name };
+  const el = document.getElementById('av' + slot.charAt(0).toUpperCase() + slot.slice(1));
+  el.textContent = icon;
+  el.style.display = 'block';
+  clearRating();
+}
+
+function removeAcc(slot) {
+  avatar[slot] = null;
+  const el = document.getElementById('av' + slot.charAt(0).toUpperCase() + slot.slice(1));
+  el.style.display = 'none';
+  clearRating();
+}
+
+function setHair(emoji) {
+  avatar.hair = emoji;
+  document.getElementById('avHair').textContent = emoji;
+  document.querySelectorAll('#page-avatar .wardrobe-section').forEach(sec => {
+    if (sec.querySelector('.wardrobe-section-label')?.textContent.includes('Hair')) {
+      sec.querySelectorAll('.cloth-btn').forEach(b => b.classList.remove('active'));
+      sec.querySelectorAll('.cloth-btn').forEach(b => {
+        if (b.querySelector('.cloth-icon')?.textContent.trim() === emoji.trim()) b.classList.add('active');
+      });
+    }
+  });
+  clearRating();
+}
+
+function setBg(gradient) {
+  document.getElementById('avBg').style.background = gradient;
+  // highlight correct bg button
+  document.querySelectorAll('#page-avatar .cloth-btn').forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(gradient.substring(0,20))) {
+      btn.closest('.cloth-grid').querySelectorAll('.cloth-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  });
+}
+
+function clearRating() {
+  document.getElementById('ratingContent').style.display = 'none';
+}
+
+/* ── Fashion Rules Engine ── */
+const RULES = [
+  {
+    id: 'colourCoherence',
+    label: 'Colour coherence',
+    desc: 'Top and bottom complement each other',
+    check: () => {
+      // Check if colours are harmonious (not clashing)
+      const topColor = avatar.top?.color || '';
+      const botColor = avatar.bottom?.color || '';
+      if (!topColor || !botColor) return 50;
+      // Parse approximate hue groups
+      const warm = ['#C4774A','#A0825A','#D4758A','#8B5E52','#C4A882','#D48890'];
+      const cool = ['#5B7FA6','#3A4E6B','#6B7A8A','#5A7A8A'];
+      const neutral = ['#3A4A3A','#2E3A2E','#D4C5B0','#9B7AB0'];
+      const isWarmT = warm.includes(topColor), isWarmB = warm.includes(botColor);
+      const isCoolT = cool.includes(topColor), isCoolB = cool.includes(botColor);
+      if ((isWarmT && isWarmB) || (isCoolT && isCoolB)) return 90;
+      if (isWarmT && isCoolB || isCoolT && isWarmB) return 55;
+      return 75;
+    }
+  },
+  {
+    id: 'occasionFit',
+    label: 'Occasion-appropriate',
+    desc: 'Shoes match outfit formality',
+    check: () => {
+      const formalTops = ['👔','🧥','🥼'];
+      const formalShoes = ['👠','👞'];
+      const casualShoes = ['👟','🩴','🥿'];
+      const sportTops = ['🎽'];
+      const sportShoes = ['👟','🥋'];
+      const topIcon = avatar.top?.icon || '';
+      const shoeIcon = avatar.shoes?.icon || '';
+      if (formalTops.includes(topIcon) && formalShoes.includes(shoeIcon)) return 95;
+      if (formalTops.includes(topIcon) && casualShoes.includes(shoeIcon)) return 60;
+      if (sportTops.includes(topIcon) && sportShoes.includes(shoeIcon)) return 92;
+      return 78;
+    }
+  },
+  {
+    id: 'accessories',
+    label: 'Accessory balance',
+    desc: 'Accessories complete without overdoing it',
+    check: () => {
+      const accCount = [avatar.hat, avatar.bag, avatar.jewel].filter(Boolean).length;
+      if (accCount === 0) return 55; // no accessories is a miss
+      if (accCount === 1) return 80;
+      if (accCount === 2) return 92;
+      if (accCount === 3) return 85; // can be over-accessorised
+      return 70;
+    }
+  },
+  {
+    id: 'layering',
+    label: 'Layering & depth',
+    desc: 'Outfit has visual interest & texture',
+    check: () => {
+      const layeredTops = ['🧥','🥼','<a href="https://www.flaticon.com/free-icons/hoodie" title="hoodie icons">Hoodie icons created by AmethystDesign - Flaticon</a>','🎀'];
+      const hasLayer = layeredTops.includes(avatar.top?.icon);
+      const hasBag = !!avatar.bag;
+      let score = 65;
+      if (hasLayer) score += 20;
+      if (hasBag) score += 10;
+      if (avatar.hat) score += 5;
+      return Math.min(score, 95);
+    }
+  },
+  {
+    id: 'shoeMatch',
+    label: 'Shoe × bottom pairing',
+    desc: 'Footwear pairs naturally with lower half',
+    check: () => {
+      const bottomIcon = avatar.bottom?.icon || '';
+      const shoeIcon = avatar.shoes?.icon || '';
+      const pairs = {
+        '👖':['👟','👞','🥾','👠','🥿','🩰'], // jeans - anything works
+        '🩳':['👟','🩴','🥿'],
+        '🩴':['👞','👠','🥿','🩰','👟'],
+        '🩲':['👟','🥋'],
+        '👗':['👠','🥿','🩰','🥾'],
+        '🩱':['👠','👞','👟'],
+      };
+      const ok = pairs[bottomIcon];
+      if (!ok) return 75;
+      return ok.includes(shoeIcon) ? 90 : 55;
+    }
+  }
+];
+
+function rateOutfit() {
+  const scores = RULES.map(r => ({ ...r, score: r.check() }));
+  const total = Math.round(scores.reduce((s,r) => s+r.score, 0) / scores.length);
+
+  // Build rules checklist HTML
+  const rulesHTML = scores.map(r => `
+    <div class="rule-item ${r.score >= 70 ? 'pass' : 'fail'}">
+      <span class="rule-icon">${r.score >= 70 ? '✅' : '❌'}</span>
+      <span>${r.label} <span style="font-size:11px;color:${r.score>=70?'var(--gold)':'var(--light)'}">${r.score}/100</span></span>
+    </div>`).join('');
+
+  // Build rating bars HTML
+  const barsHTML = scores.map(r => {
+    const hue = r.score >= 80 ? '#C9A84C' : r.score >= 65 ? '#C9706A' : '#B0A49A';
+    return `<div class="rating-row">
+      <div class="rating-label">${r.desc} <span>${r.score}</span></div>
+      <div class="rating-bar-bg"><div class="rating-bar-fill" style="background:${hue}" data-w="${r.score}%"></div></div>
+    </div>`;
+  }).join('');
+
+  // Stars
+  const stars = total >= 90 ? '★★★★★' : total >= 75 ? '★★★★☆' : total >= 60 ? '★★★☆☆' : total >= 45 ? '★★☆☆☆' : '★☆☆☆☆';
+
+  // Feedback message
+  const passCount = scores.filter(r=>r.score>=70).length;
+  const feedback = getFeedback(total, passCount, scores);
+
+  document.getElementById('rulesCheck').innerHTML = rulesHTML;
+  document.getElementById('ratingBars').innerHTML = barsHTML;
+  document.getElementById('ratingScore').textContent = total;
+  document.getElementById('ratingStars').textContent = stars;
+  document.getElementById('ratingFeedback').innerHTML = feedback;
+  document.getElementById('ratingContent').style.display = 'block';
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.rating-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.w;
+    });
+  }, 80);
+  // Animate score counter
+  animateScore(total);
+}
+
+function animateScore(target) {
+  const el = document.getElementById('ratingScore');
+  let current = 0;
+  const duration = 900;
+  const start = performance.now();
+  const tick = (now) => {
+    const p = Math.min((now - start) / duration, 1);
+    current = Math.round(p * p * target); // ease-in
+    el.textContent = current;
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = target;
+  };
+  requestAnimationFrame(tick);
+}
+
+function getFeedback(score, passCount, scores) {
+  const weakRules = scores.filter(r=>r.score<70).map(r=>r.label);
+  let msg = '';
+  if (score >= 88) {
+    msg = `<strong>✦ Stunning look!</strong> You've nailed the fashion rules. Your outfit is cohesive, well-accessorised, and polished. Ready for the street.`;
+  } else if (score >= 74) {
+    msg = `<strong>Great style!</strong> A solid, put-together look. ${weakRules.length ? `Tip: work on your <em>${weakRules[0].toLowerCase()}</em> to take it further.` : ''}`;
+  } else if (score >= 58) {
+    msg = `<strong>Getting there!</strong> You have some good choices but the combination needs refining. Focus on: <em>${weakRules.slice(0,2).join(', ')}</em>.`;
+  } else {
+    msg = `<strong>Keep experimenting!</strong> Try matching your shoes to your outfit's formality level, and add an accessory or two. Visit the <em>Tips</em> tab for fashion rules.`;
+  }
+  return msg;
+}
+
+/* ── Random outfit ── */
+const RANDOM_OUTFITS = [
+  { top:['👔','#5B7FA6','#4A6B8A','Classic shirt'], bottom:['👖','#3A4E6B','#2E3E5A','Jeans'], shoes:['👞','','','Oxfords'], hat:'🧢', bag:'💼', jewel:'⌚' },
+  { top:['🎽','#6B8F6B','#5A7A5A','Sport top'], bottom:['🩲','#6B7A8A','#5A6878','Joggers'], shoes:['👟','','','Sneakers'], hat:null, bag:'🎒', jewel:null },
+  { top:['🧥','#3A4A3A','#2E3E2E','Blazer'], bottom:['👖','#3A4E6B','#2E3E5A','Jeans'], shoes:['👠','','','Heels'], hat:null, bag:'👜', jewel:'📿' },
+  { top:['🧶','#C4774A','#B06A3D','Sweater'], bottom:['👗','#D48890','#C07075','Skirt'], shoes:['🥾','','','Boots'], hat:'👒', bag:'👝', jewel:'💍' },
+  { top:['<a href="https://www.flaticon.com/free-icons/hoodie" title="hoodie icons">Hoodie icons created by AmethystDesign - Flaticon</a>','#9B7AB0','#8265A0','Hoodie'], bottom:['🩳','#A0825A','#8A6E48','Shorts'], shoes:['👟','','','Sneakers'], hat:'🧢', bag:'🎒', jewel:null },
+];
+
+function randomOutfit() {
+  const r = RANDOM_OUTFITS[Math.floor(Math.random() * RANDOM_OUTFITS.length)];
+  wearItem('top', ...r.top);
+  wearItem('bottom', ...r.bottom);
+  wearItem('shoes', ...r.shoes);
+  if (r.hat) wearAcc('hat', r.hat, r.hat); else removeAcc('hat');
+  if (r.bag) wearAcc('bag', r.bag, r.bag); else removeAcc('bag');
+  if (r.jewel) wearAcc('jewel', r.jewel, r.jewel); else removeAcc('jewel');
+}
+</script>
+</body>
+</html>
